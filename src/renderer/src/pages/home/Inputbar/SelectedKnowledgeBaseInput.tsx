@@ -1,4 +1,3 @@
-import { FileSearchOutlined } from '@ant-design/icons'
 import { KnowledgeBase } from '@renderer/types'
 import { Flex, Tag } from 'antd'
 import { FC } from 'react'
@@ -11,15 +10,14 @@ const SelectedKnowledgeBaseInput: FC<{
   return (
     <Container gap="4px 0" wrap>
       {selectedKnowledgeBase.map((knowledgeBase) => (
-        <StyledTag
+        <Tag
           bordered={false}
           color="pink"
           key={knowledgeBase.id}
           closable
           onClose={() => onRemoveKnowledgeBase(knowledgeBase)}>
-          <FileSearchOutlined />
-          {knowledgeBase.name}
-        </StyledTag>
+          #{knowledgeBase.name}
+        </Tag>
       ))}
     </Container>
   )
@@ -28,13 +26,6 @@ const SelectedKnowledgeBaseInput: FC<{
 const Container = styled(Flex)`
   width: 100%;
   padding: 10px 15px 0;
-`
-
-const StyledTag = styled(Tag)`
-  max-width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `
 
 export default SelectedKnowledgeBaseInput
