@@ -22,16 +22,49 @@ const SelectKnowledgePopup: FC<{
   }
 
   return (
-    <Container gap="4px 0" wrap>
-      {knowledgeState.bases.map((knowledgeBase) => (
-        <KnowledgeTag
-          bordered={false}
-          color="pink"
-          key={knowledgeBase.id}
-          onClick={() => selectKnowledgeBase(knowledgeBase)}>
-          #{knowledgeBase.name}
-        </KnowledgeTag>
-      ))}
+    <Container>
+      <Header>
+        <Title level={5}>{t('agents.add.knowledge_base.placeholder')}</Title>
+        <SearchInput
+          placeholder="Search knowledge bases..."
+          prefix={<DatabaseOutlined style={{ color: 'var(--color-text-3)' }} />}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          allowClear
+          autoFocus
+        />
+      </Header>
+
+      {knowledgeState.bases.length === 0 ? (
+        <EmptyContainer>
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No knowledge bases available" />
+        </EmptyContainer>
+      ) : (
+        <ListContainer>
+          <List
+            itemLayout="horizontal"
+            dataSource={filteredBases}
+            renderItem={(base, index) => (
+              <KnowledgeItem $selected={index === selectedIndex} onClick={() => selectKnowledgeBase(base)}>
+                <KnowledgeAvatar>
+                  <DatabaseOutlined />
+                </KnowledgeAvatar>
+                <KnowledgeInfo>
+                  <KnowledgeName>{base.name}</KnowledgeName>
+                  {/* <KnowledgeDescription>{base.description || `${base.items?.length || 0} items`}</KnowledgeDescription> */}
+                </KnowledgeInfo>
+              </KnowledgeItem>
+            )}
+            locale={{
+              emptyText: searchText ? (
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={`No results for "${searchText}"`} />
+              ) : (
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="No knowledge bases available" />
+              )
+            }}
+          />
+        </ListContainer>
+      )}
     </Container>
   )
 }
