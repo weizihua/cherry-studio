@@ -27,7 +27,7 @@ import { translateText } from '@renderer/services/TranslateService'
 import WebSearchService from '@renderer/services/WebSearchService'
 import { useAppDispatch } from '@renderer/store'
 import { sendMessage as _sendMessage } from '@renderer/store/messages'
-import { setSearching } from '@renderer/store/runtime'
+import { setGenerating, setSearching } from '@renderer/store/runtime'
 import { Assistant, FileType, KnowledgeBase, MCPServer, Message, Model, Topic } from '@renderer/types'
 import { classNames, delay, getFileExtension } from '@renderer/utils'
 import { getFilesFromDropEvent } from '@renderer/utils/input'
@@ -592,6 +592,11 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
   const handleKnowledgeBaseSelect = (bases?: KnowledgeBase[]) => {
     updateAssistant({ ...assistant, knowledge_bases: bases })
     setSelectedKnowledgeBases(bases ?? [])
+  }
+
+  const handleRemoveKnowledgeBase = (base: KnowledgeBase) => {
+    const newBases = selectedKnowledgeBases.filter((b) => b.id !== base.id)
+    handleKnowledgeBaseSelect(newBases)
   }
 
   const onMentionModel = (model: Model, fromKeyboard: boolean = false) => {
