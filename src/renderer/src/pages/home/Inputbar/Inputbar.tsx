@@ -377,10 +377,20 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
     if (textArea) {
       const cursorPosition = textArea.selectionStart
       const textBeforeCursor = newText.substring(0, cursorPosition)
+      const lastHashIndex = textBeforeCursor.lastIndexOf('#')
+      // 处理@符号
       const lastAtIndex = textBeforeCursor.lastIndexOf('@')
-
       if (lastAtIndex === -1 || textBeforeCursor.slice(lastAtIndex + 1).includes(' ')) {
         setIsMentionPopupOpen(false)
+      }
+      // 处理#符号
+      if (
+        (lastHashIndex !== -1 && textBeforeCursor.length === 1) ||
+        (textBeforeCursor.endsWith(' #') && !isKnowledgePopupOpen)
+      ) {
+        setIsKnowledgePopupOpen(true)
+      } else {
+        setIsKnowledgePopupOpen(false)
       }
     }
   }
@@ -702,6 +712,10 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
                   setIsKnowledgePopupOpen(false)
                   textareaRef.current?.focus()
                 }}
+                onClose={() => {
+                  setIsKnowledgePopupOpen(false)
+                  textareaRef.current?.focus()
+                }}
               />
             </KnowledgePopupContainer>
           )}
@@ -944,6 +958,19 @@ const ToolbarButton = styled(Button)`
       background-color: var(--color-primary);
     }
   }
+`
+const KnowledgePopupContainer = styled.div`
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 20%;
+  z-index: 1000;
+  background-color: var(--color-background-opacity);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-height: 320px;
+  overflow-y: auto;
+  margin-bottom: 5px;
 `
 
 export default Inputbar
