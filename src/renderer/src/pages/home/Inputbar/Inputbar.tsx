@@ -228,22 +228,9 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const isEnterPressed = event.keyCode == 13
 
-    if (event.key === '@') {
-      const textArea = textareaRef.current?.resizableTextArea?.textArea
-      if (textArea) {
-        const cursorPosition = textArea.selectionStart
-        const textBeforeCursor = text.substring(0, cursorPosition)
-        if (cursorPosition === 0 || textBeforeCursor.endsWith(' ')) {
-          setMentionFromKeyboard(true)
-          EventEmitter.emit(EVENT_NAMES.SHOW_MODEL_SELECTOR)
-          setIsMentionPopupOpen(true)
-          return
-        }
-      }
-    }
-
-    if (event.key === 'Escape' && isMentionPopupOpen) {
-      setIsMentionPopupOpen(false)
+    if (event.key === 'Escape') {
+      isMentionPopupOpen && setIsMentionPopupOpen(false)
+      isKnowledgePopupOpen && setIsKnowledgePopupOpen(false)
       return
     }
 

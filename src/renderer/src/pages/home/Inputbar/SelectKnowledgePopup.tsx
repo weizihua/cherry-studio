@@ -3,7 +3,6 @@ import { useAppSelector } from '@renderer/store'
 import { KnowledgeBase } from '@renderer/types'
 import { Empty, Input, List, Typography } from 'antd'
 import { FC, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 const { Title } = Typography
@@ -15,53 +14,21 @@ const SelectKnowledgePopup: FC<{
   const knowledgeState = useAppSelector((state) => state.knowledge)
   const [searchText, setSearchText] = useState('')
   const [filteredBases, setFilteredBases] = useState<KnowledgeBase[]>([])
-  const [selectedIndex, setSelectedIndex] = useState(0)
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose()
-      }
-
-      if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
-        e.preventDefault()
-        const direction = e.key === 'ArrowDown' ? 1 : -1
-        const newIndex = selectedIndex + direction
-        if (newIndex >= 0 && newIndex < filteredBases.length) {
-          setSelectedIndex(newIndex)
-        }
-      }
-
-      if (e.key === 'Enter' && filteredBases[selectedIndex]) {
-        selectKnowledgeBase(filteredBases[selectedIndex])
-        onClose()
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedIndex, filteredBases, onClose, selectKnowledgeBase])
 
   useEffect(() => {
     if (searchText) {
       setFilteredBases(
-        knowledgeState.bases.filter(
-          (base) =>
-            !selectedKnowledgeBase.some((selected) => selected.id === base.id) &&
-            base.name.toLowerCase().includes(searchText.toLowerCase())
-        )
+        knowledgeState.bases.filter((base) => base.name.toLowerCase().includes(searchText.toLowerCase()))
       )
     } else {
-      setFilteredBases(
-        knowledgeState.bases.filter((base) => !selectedKnowledgeBase.some((selected) => selected.id === base.id))
-      )
+      setFilteredBases(knowledgeState.bases)
     }
   }, [searchText, knowledgeState.bases])
 
   return (
     <Container>
       <Header>
-        <Title level={5}>{t('agents.add.knowledge_base.placeholder')}</Title>
+        <Title level={5}>Select Knowledge Base</Title>
         <SearchInput
           placeholder="Search knowledge bases..."
           prefix={<DatabaseOutlined style={{ color: 'var(--color-text-3)' }} />}
@@ -81,8 +48,8 @@ const SelectKnowledgePopup: FC<{
           <List
             itemLayout="horizontal"
             dataSource={filteredBases}
-            renderItem={(base, index) => (
-              <KnowledgeItem $selected={index === selectedIndex} onClick={() => selectKnowledgeBase(base)}>
+            renderItem={(base) => (
+              <KnowledgeItem onClick={() => selectKnowledgeBase(base)}>
                 <KnowledgeAvatar>
                   <DatabaseOutlined />
                 </KnowledgeAvatar>
@@ -158,13 +125,12 @@ const ListContainer = styled.div`
   }
 `
 
-const KnowledgeItem = styled.div<{ $selected?: boolean }>`
+const KnowledgeItem = styled.div`
   display: flex;
   align-items: center;
   padding: 10px 16px;
   cursor: pointer;
   transition: background-color 0.2s;
-  background-color: ${(props) => (props.$selected ? 'var(--color-background-soft)' : 'transparent')};
 
   &:hover {
     background-color: var(--color-background-soft);
