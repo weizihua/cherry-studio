@@ -1,4 +1,4 @@
-import { DatabaseOutlined } from '@ant-design/icons'
+import { FileSearchOutlined } from '@ant-design/icons'
 import { useAppSelector } from '@renderer/store'
 import { KnowledgeBase } from '@renderer/types'
 import { Empty, Input, List, Typography } from 'antd'
@@ -66,8 +66,8 @@ const SelectKnowledgePopup: FC<{
       <Header>
         <Title level={5}>{t('agents.add.knowledge_base.placeholder')}</Title>
         <SearchInput
-          placeholder="Search knowledge bases..."
-          prefix={<DatabaseOutlined style={{ color: 'var(--color-text-3)' }} />}
+          placeholder={t('knowledge.search')}
+          prefix={<FileSearchOutlined style={{ color: 'var(--color-text-3)' }} />}
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           allowClear
@@ -87,7 +87,7 @@ const SelectKnowledgePopup: FC<{
             renderItem={(base, index) => (
               <KnowledgeItem $selected={index === selectedIndex} onClick={() => selectKnowledgeBase(base)}>
                 <KnowledgeAvatar>
-                  <DatabaseOutlined />
+                  <FileSearchOutlined />
                 </KnowledgeAvatar>
                 <KnowledgeInfo>
                   <KnowledgeName>{base.name}</KnowledgeName>

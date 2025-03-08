@@ -1,3 +1,4 @@
+import { FileSearchOutlined } from '@ant-design/icons'
 import { KnowledgeBase } from '@renderer/types'
 import { Flex, Tag } from 'antd'
 import { FC } from 'react'
@@ -16,7 +17,8 @@ const SelectedKnowledgeBaseInput: FC<{
           key={knowledgeBase.id}
           closable
           onClose={() => onRemoveKnowledgeBase(knowledgeBase)}>
-          #{knowledgeBase.name}
+          <FileSearchOutlined />
+          {knowledgeBase.name}
         </Tag>
       ))}
     </Container>
