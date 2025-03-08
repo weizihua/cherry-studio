@@ -92,7 +92,6 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
   const [mentionModels, setMentionModels] = useState<Model[]>([])
   const [enabledMCPs, setEnabledMCPs] = useState<MCPServer[]>([])
   const [isMentionPopupOpen, setIsMentionPopupOpen] = useState(false)
-  const [isKnowledgeBasePopupOpen, setIsKnowledgeBasePopupOpen] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [textareaHeight, setTextareaHeight] = useState<number>()
   const startDragY = useRef<number>(0)
@@ -228,16 +227,8 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
     }
   }
 
-  const knowledgeState = useAppSelector((state) => state.knowledge)
-
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const isEnterPressed = event.keyCode == 13
-
-    if (event.key === '#') {
-      console.info(knowledgeState)
-      console.info(selectedKnowledgeBases)
-      setIsKnowledgeBasePopupOpen(true)
-    }
 
     if (event.key === 'Escape' && isMentionPopupOpen) {
       setIsMentionPopupOpen(false)
@@ -376,14 +367,17 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
       // 处理@符号
       const lastAtIndex = textBeforeCursor.lastIndexOf('@')
       const lastHashIndex = textBeforeCursor.lastIndexOf('#')
-
+      // 处理@符号
       if (lastAtIndex === -1 || textBeforeCursor.slice(lastAtIndex + 1).includes(' ')) {
         setIsMentionPopupOpen(false)
       } else {
         setIsMentionPopupOpen(true)
       }
+      // 处理#符号
       if (lastHashIndex === -1 || textBeforeCursor.slice(lastHashIndex + 1).includes(' ')) {
-        setIsKnowledgeBasePopupOpen(false)
+        setIsKnowledgePopupOpen(false)
+      } else {
+        setIsKnowledgePopupOpen(true)
       }
     }
   }
@@ -978,7 +972,7 @@ const KnowledgePopupContainer = styled.div`
   position: absolute;
   bottom: 100%;
   left: 0;
-  width: auto;
+  width: 100%;
   z-index: 1000;
   background-color: var(--color-background-opacity);
   border-radius: 10px;
