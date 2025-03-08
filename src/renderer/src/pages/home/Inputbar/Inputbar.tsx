@@ -625,6 +625,26 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
     })
   }
 
+  const handleSelectKnowledgeBase = (knowledgeBase: KnowledgeBase) => {
+    setSelectedKnowledgeBases((prev) => [...prev, knowledgeBase])
+    setIsKnowledgePopupOpen(false)
+    // 替换文本中的#标记
+    const textArea = textareaRef.current?.resizableTextArea?.textArea
+    if (textArea) {
+      const cursorPosition = textArea.selectionStart
+      const textBeforeCursor = text.substring(0, cursorPosition)
+      const lastHashIndex = textBeforeCursor.lastIndexOf('#')
+      if (lastHashIndex !== -1) {
+        const newText = text.substring(0, lastHashIndex) + text.substring(cursorPosition)
+        setText(newText)
+      }
+    }
+    // 重新聚焦输入框
+    setTimeout(() => {
+      textareaRef.current?.focus()
+    }, 0)
+  }
+
   const onEnableWebSearch = () => {
     console.log(assistant)
     if (!isWebSearchModel(model)) {
@@ -673,6 +693,18 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
           id="inputbar"
           className={classNames('inputbar-container', inputFocus && 'focus')}
           ref={containerRef}>
+          {isKnowledgePopupOpen && (
+            <KnowledgePopupContainer>
+              <SelectKnowledgePopup
+                selectKnowledgeBase={handleSelectKnowledgeBase}
+                selectedKnowledgeBase={selectedKnowledgeBases}
+                onClose={() => {
+                  setIsKnowledgePopupOpen(false)
+                  textareaRef.current?.focus()
+                }}
+              />
+            </KnowledgePopupContainer>
+          )}
           <AttachmentPreview files={files} setFiles={setFiles} />
           <MentionModelsInput selectedModels={mentionModels} onRemoveModel={handleRemoveModel} />
           <Textarea
