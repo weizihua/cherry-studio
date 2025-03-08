@@ -10,14 +10,12 @@ const { Title } = Typography
 
 const SelectKnowledgePopup: FC<{
   selectKnowledgeBase: (knowledgeBase: KnowledgeBase) => void
-  selectedKnowledgeBase: KnowledgeBase[]
   onClose: () => void
-}> = ({ selectKnowledgeBase, onClose, selectedKnowledgeBase }) => {
+}> = ({ selectKnowledgeBase, onClose }) => {
   const knowledgeState = useAppSelector((state) => state.knowledge)
   const [searchText, setSearchText] = useState('')
   const [filteredBases, setFilteredBases] = useState<KnowledgeBase[]>([])
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const { t } = useTranslation()
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -35,7 +33,6 @@ const SelectKnowledgePopup: FC<{
       }
 
       if (e.key === 'Enter' && filteredBases[selectedIndex]) {
-        e.preventDefault()
         selectKnowledgeBase(filteredBases[selectedIndex])
         onClose()
       }
