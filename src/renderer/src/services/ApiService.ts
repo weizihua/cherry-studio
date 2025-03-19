@@ -102,7 +102,7 @@ export async function fetchChatCompletion({
     let mcpTools: MCPTool[] = []
     const enabledMCPs = lastUserMessage?.enabledMCPs
 
-    if (enabledMCPs) {
+    if (enabledMCPs && enabledMCPs.length > 0) {
       const allMCPTools = await window.api.mcp.listTools()
       mcpTools = allMCPTools.filter((tool) => enabledMCPs.some((mcp) => mcp.name === tool.serverName))
     }
