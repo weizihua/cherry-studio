@@ -50,6 +50,7 @@ import MentionModelsButton from './MentionModelsButton'
 import MentionModelsInput from './MentionModelsInput'
 import NewContextButton from './NewContextButton'
 import SelectedKnowledgeBaseInput from './SelectedKnowledgeBaseInput'
+import SelectKnowledgePopup from './SelectKnowledgePopup'
 import SendMessageButton from './SendMessageButton'
 import TokenCount from './TokenCount'
 interface Props {
