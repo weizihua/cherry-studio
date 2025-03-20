@@ -58,7 +58,7 @@ const SelectKnowledgePopup: FC<{
         knowledgeState.bases.filter((base) => !selectedKnowledgeBase.some((selected) => selected.id === base.id))
       )
     }
-  }, [searchText, knowledgeState.bases])
+  }, [searchText, knowledgeState.bases, selectedKnowledgeBase])
 
   return (
     <Container>
@@ -205,14 +205,6 @@ const KnowledgeInfo = styled.div`
 const KnowledgeName = styled.div`
   font-weight: 500;
   color: var(--color-text-1);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
-
-const KnowledgeDescription = styled.div`
-  font-size: 12px;
-  color: var(--color-text-3);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
