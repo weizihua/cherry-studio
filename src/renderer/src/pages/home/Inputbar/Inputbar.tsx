@@ -27,7 +27,7 @@ import { translateText } from '@renderer/services/TranslateService'
 import WebSearchService from '@renderer/services/WebSearchService'
 import { useAppDispatch } from '@renderer/store'
 import { sendMessage as _sendMessage } from '@renderer/store/messages'
-import { setGenerating, setSearching } from '@renderer/store/runtime'
+import { setSearching } from '@renderer/store/runtime'
 import { Assistant, FileType, KnowledgeBase, MCPServer, Message, Model, Topic } from '@renderer/types'
 import { classNames, delay, getFileExtension } from '@renderer/utils'
 import { getFilesFromDropEvent } from '@renderer/utils/input'
@@ -699,28 +699,11 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
           {isKnowledgePopupOpen && (
             <KnowledgePopupContainer>
               <SelectKnowledgePopup
-                selectKnowledgeBase={(knowledgeBase) => {
-                  setSelectedKnowledgeBases((prev) => [...prev, knowledgeBase])
+                selectKnowledgeBase={handleSelectKnowledgeBase}
+                onClose={() => {
                   setIsKnowledgePopupOpen(false)
-
-                  // 替换文本中的#标记
-                  const textArea = textareaRef.current?.resizableTextArea?.textArea
-                  if (textArea) {
-                    const cursorPosition = textArea.selectionStart
-                    const textBeforeCursor = text.substring(0, cursorPosition)
-                    const lastHashIndex = textBeforeCursor.lastIndexOf('#')
-
-                    if (lastHashIndex !== -1) {
-                      const newText = text.substring(0, lastHashIndex) + text.substring(cursorPosition)
-                      setText(newText)
-                    }
-                  }
-
-                  // 重新聚焦输入框
-                  setTimeout(() => {
-                    textareaRef.current?.focus()
-                  }, 0)
                 }}
+                selectedKnowledgeBase={selectedKnowledgeBases}
               />
             </KnowledgePopupContainer>
           )}
@@ -973,7 +956,7 @@ const KnowledgePopupContainer = styled.div`
   position: absolute;
   bottom: 100%;
   left: 0;
-  width: 100%;
+  width: auto%;
   z-index: 1000;
   background-color: var(--color-background-opacity);
   border-radius: 10px;
