@@ -165,12 +165,12 @@ const KnowledgeItem = styled.div<{ $selected?: boolean }>`
   padding: 10px 16px;
   cursor: pointer;
   transition: background-color 0.2s;
-  background-color: ${(props) => (props.$selected ? 'var(--color-background-soft)' : 'transparent')};
+  background-color: ${(props) => (props.$selected ? 'var(--color-background-mute)' : 'transparent')};
   margin: 4px;
   transition: all 0.2s;
 
   &:hover {
-    background-color: var(--color-background-soft);
+    background-color: var(--color-background-mute);
     transform: scale(1.05);
   }
 `

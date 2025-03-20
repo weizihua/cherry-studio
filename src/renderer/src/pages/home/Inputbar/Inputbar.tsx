@@ -701,7 +701,10 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
               <SelectKnowledgePopup
                 selectKnowledgeBase={handleSelectKnowledgeBase}
                 onClose={() => {
-                  setIsKnowledgePopupOpen(false)
+                  setIsKnowledgePopupOpen(false) // 重新聚焦输入框
+                  setTimeout(() => {
+                    textareaRef.current?.focus()
+                  }, 0)
                 }}
                 selectedKnowledgeBase={selectedKnowledgeBases}
               />
