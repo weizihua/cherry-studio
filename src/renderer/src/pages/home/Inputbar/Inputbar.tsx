@@ -48,6 +48,7 @@ import KnowledgeBaseButton from './KnowledgeBaseButton'
 import MCPToolsButton from './MCPToolsButton'
 import MentionModelsButton from './MentionModelsButton'
 import MentionModelsInput from './MentionModelsInput'
+import NewContextButton from './NewContextButton'
 import SelectedKnowledgeBaseInput from './SelectedKnowledgeBaseInput'
 import SendMessageButton from './SendMessageButton'
 import TokenCount from './TokenCount'
@@ -363,6 +364,7 @@ const Inputbar: FC<Props> = ({ assistant: _assistant, setActiveTopic, topic }) =
     if (textArea) {
       const cursorPosition = textArea.selectionStart
       const textBeforeCursor = newText.substring(0, cursorPosition)
+      // 处理@符号
       const lastAtIndex = textBeforeCursor.lastIndexOf('@')
       const lastHashIndex = textBeforeCursor.lastIndexOf('#')
       // 处理@符号

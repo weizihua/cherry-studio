@@ -1,3 +1,4 @@
+import { FileSearchOutlined } from '@ant-design/icons'
 import { KnowledgeBase } from '@renderer/types'
 import { Flex, Tag } from 'antd'
 import { FC } from 'react'
