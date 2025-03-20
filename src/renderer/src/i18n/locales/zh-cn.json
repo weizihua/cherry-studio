@@ -1104,6 +1104,53 @@
           "title": "Tavily"
         },
         "title": "网络搜索"
+      },
+      "nodeRequired": "需要 Node.js",
+      "nodeSettings": {
+        "title": "Node.js 环境设置",
+        "description": "管理 Cherry Studio 内置的 Node.js 环境。您可以选择要安装的 Node.js 版本，以确保最佳的兼容性。",
+        "status": "状态",
+        "checking": "检查中...",
+        "installed": "已安装",
+        "notInstalled": "未安装",
+        "refresh": "刷新",
+        "version": "Node.js 版本",
+        "versionHelp": "选择要安装的 Node.js 版本",
+        "customVersion": "自定义版本",
+        "customVersionHelp": "如果您需要特定版本，请在此输入版本号（如 18.16.1）",
+        "install": "安装 Node.js",
+        "reinstall": "重新安装 Node.js",
+        "installSuccess": "Node.js v{{version}} 安装成功",
+        "installFailed": "Node.js 安装失败"
+      },
+      "nodeSettingsTab": "Node.js 环境",
+      "appsManagerTab": "应用管理",
+      "packageDeployerTab": "部署代码包",
+      "packageDeployer": {
+        "advancedOptions": "高级选项",
+        "deploy": "部署",
+        "deployFailed": "部署包失败",
+        "deploySuccess": "{{name}} 已成功部署在端口 {{port}} 上",
+        "description": "上传包含 Node.js 应用程序代码的 ZIP 文件。该包将被自动解压和安装。",
+        "fileSelectError": "选择文件时出错",
+        "installNode": "安装 Node.js",
+        "installNodePrompt": "部署应用程序需要 Node.js。您要现在安装吗？",
+        "namePlaceholder": "为您部署的应用输入名称",
+        "nodeInstallFailed": "安装 Node.js 失败",
+        "nodeInstallSuccess": "Node.js 安装成功",
+        "nodeNeeded": "运行应用程序需要内置 Node.js。",
+        "nodeNotAvailable": "Node.js 不可用",
+        "noFileSelected": "请选择要部署的 ZIP 文件",
+        "open": "在浏览器中打开",
+        "selectZip": "点击选择 ZIP 文件",
+        "title": "部署代码包",
+        "moduleTypeError": "模块类型错误",
+        "esModuleError": "发现 ES 模块语法。请在 package.json 中设置 \"type\": \"module\" 或使用 .mjs 扩展名。",
+        "convertToCommonJS": "转换为 CommonJS 语法",
+        "nextJsDetected": "检测到 Next.js 应用",
+        "buildStepAdded": "已自动添加构建步骤：将在启动应用前执行 'npm run build'。",
+        "nextJsInfo": "Next.js 应用注意事项",
+        "nextJsDescription": "Next.js 应用需要先构建后才能启动。请确保勾选\"这是一个 Next.js 应用\"或手动添加\"npm run build\"作为构建命令。"
       }
     },
     "translate": {
@@ -1141,6 +1188,32 @@
       "quit": "退出",
       "show_window": "显示窗口",
       "visualization": "可视化"
+    },
+    "nodeapp": {
+      "add": "添加",
+      "addApp": "添加应用",
+      "appName": "应用名称",
+      "appsManager": {
+        "confirmDelete": "确定要删除此应用吗？",
+        "confirmStop": "确定要停止此应用吗？",
+        "description": "管理应用",
+        "install": "安装",
+        "noApps": "暂无应用，请添加新应用或从代码部署",
+        "port": "端口",
+        "repository": "仓库",
+        "start": "启动",
+        "status": "状态",
+        "stop": "停止",
+        "title": "应用管理",
+        "uninstall": "卸载",
+        "update": "更新",
+        "updateProgress": "更新进度",
+        "updateSuccess": "{{name}} 更新成功",
+        "version": "版本",
+        "viewRepository": "查看仓库"
+      },
+      "nextJsInfo": "Next.js 应用注意事项",
+      "nextJsDescription": "Next.js 应用需要先构建后才能启动。请确保勾选\"这是一个 Next.js 应用\"或手动添加\"npm run build\"作为构建命令。"
     }
   }
 }

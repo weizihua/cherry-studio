@@ -24,6 +24,7 @@ import { getResourcePath } from './utils'
 import { decrypt, encrypt } from './utils/aes'
 import { getFilesDir } from './utils/file'
 import { compress, decompress } from './utils/zip'
+import NodeAppService from './services/NodeAppService'
 
 const fileManager = new FileStorage()
 const backupManager = new BackupManager()
@@ -243,6 +244,17 @@ export function registerIpc(mainWindow: BrowserWindow, app: Electron.App) {
 
   ipcMain.handle('mcp:cleanup', async () => mcpService.cleanup())
 
+  // Shell API
+  ipcMain.handle('shell:openExternal', async (_, url: string) => {
+    try {
+      log.info(`Opening external URL: ${url}`)
+      return await shell.openExternal(url)
+    } catch (error) {
+      log.error('Error opening external URL:', error)
+      throw error
+    }
+  })
+
   ipcMain.handle('app:is-binary-exist', (_, name: string) => isBinaryExists(name))
   ipcMain.handle('app:get-binary-path', (_, name: string) => getBinaryPath(name))
   ipcMain.handle('app:install-uv-binary', () => runInstallScript('install-uv.js'))
@@ -262,4 +274,53 @@ export function registerIpc(mainWindow: BrowserWindow, app: Electron.App) {
   ipcMain.handle('copilot:get-token', CopilotService.getToken)
   ipcMain.handle('copilot:logout', CopilotService.logout)
   ipcMain.handle('copilot:get-user', CopilotService.getUser)
+
+  // Node app management
+  const nodeAppService = NodeAppService.getInstance()
+
+  ipcMain.handle('nodeapp:list', async () => await nodeAppService.getAllApps())
+
+  ipcMain.handle('nodeapp:add', async (_, app) => await nodeAppService.addApp(app))
+
+  ipcMain.handle('nodeapp:install', async (_, appId) => await nodeAppService.installApp(appId))
+
+  ipcMain.handle('nodeapp:update', async (_, appId) => await nodeAppService.updateApp(appId))
+
+  ipcMain.handle('nodeapp:start', async (_, appId) => await nodeAppService.startApp(appId))
+
+  ipcMain.handle('nodeapp:stop', async (_, appId) => await nodeAppService.stopApp(appId))
+
+  ipcMain.handle('nodeapp:uninstall', async (_, appId) => await nodeAppService.uninstallApp(appId))
+
+  ipcMain.handle('nodeapp:deploy-zip', async (_, zipPath, options) => await nodeAppService.deployFromZip(zipPath, options))
+
+  ipcMain.handle('nodeapp:deploy-git', async (_, repoUrl, options) => await nodeAppService.deployFromGit(repoUrl, options))
+
+  ipcMain.handle('nodeapp:check-node', async () => {
+    const isNodeInstalled = await isBinaryExists('node')
+    return isNodeInstalled
+  })
+
+  ipcMain.handle('nodeapp:install-node', async () => {
+    return await nodeAppService.installNodeJs()
+  })
+
+  // Listen for changes in Node.js apps and notify renderer
+  nodeAppService.on('apps-updated', (apps) => {
+    mainWindow?.webContents.send('nodeapp:updated', apps)
+  })
+
+  app.on('before-quit', () => nodeAppService.cleanup())
+
+  // 运行简单命令
+  ipcMain.handle('app:run-command', async (_, command: string) => {
+    try {
+      const { execSync } = require('child_process')
+      const result = execSync(command).toString()
+      return result
+    } catch (error) {
+      log.error('Error running command:', error)
+      throw error
+    }
+  })
 }

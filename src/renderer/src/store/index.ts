@@ -12,6 +12,7 @@ import mcp from './mcp'
 import messagesReducer from './messages'
 import migrate from './migrate'
 import minapps from './minapps'
+import nodeapps from './nodeapps'
 import paintings from './paintings'
 import runtime from './runtime'
 import settings from './settings'
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   websearch,
   mcp,
   copilot,
+  nodeapps,
   messages: messagesReducer
 })
 

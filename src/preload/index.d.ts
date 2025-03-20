@@ -154,10 +154,37 @@ declare global {
         logout: () => Promise<void>
         getUser: (token: string) => Promise<{ login: string; avatar: string }>
       }
+      nodeapp: {
+        list: () => Promise<any[]>
+        add: (app: any) => Promise<any>
+        install: (appId: string) => Promise<any | null>
+        update: (appId: string) => Promise<any | null>
+        start: (appId: string) => Promise<{ port: number; url: string } | null>
+        stop: (appId: string) => Promise<boolean>
+        uninstall: (appId: string) => Promise<boolean>
+        deployZip: (zipPath: string, options?: {
+          name?: string;
+          port?: number;
+          startCommand?: string;
+          installCommand?: string;
+          buildCommand?: string;
+        }) => Promise<{ port: number; url: string } | null>
+        deployGit: (repoUrl: string, options?: {
+          name?: string;
+          port?: number;
+          startCommand?: string;
+          installCommand?: string;
+          buildCommand?: string;
+        }) => Promise<{ port: number; url: string } | null>
+        checkNode: () => Promise<boolean>
+        installNode: () => Promise<boolean>
+        onUpdated: (callback: (apps: any[]) => void) => () => void
+      }
       isBinaryExist: (name: string) => Promise<boolean>
       getBinaryPath: (name: string) => Promise<string>
       installUVBinary: () => Promise<void>
       installBunBinary: () => Promise<void>
+      run: (command: string) => Promise<string>
     }
   }
 }

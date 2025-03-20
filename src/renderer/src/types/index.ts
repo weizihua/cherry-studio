@@ -164,6 +164,21 @@ export type MinAppType = {
   style?: React.CSSProperties
 }
 
+export type NodeAppType = MinAppType & {
+  type: 'node'
+  repositoryUrl?: string
+  version?: string
+  description?: string
+  author?: string
+  homepage?: string
+  installCommand?: string
+  buildCommand?: string
+  startCommand?: string
+  port?: number
+  isInstalled?: boolean
+  isRunning?: boolean
+}
+
 export interface FileType {
   id: string
   name: string

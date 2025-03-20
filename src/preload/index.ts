@@ -29,6 +29,38 @@ const api = {
       ipcRenderer.invoke('backup:backupToWebdav', data, webdavConfig),
     restoreFromWebdav: (webdavConfig: WebDavConfig) => ipcRenderer.invoke('backup:restoreFromWebdav', webdavConfig)
   },
+  nodeapp: {
+    list: () => ipcRenderer.invoke('nodeapp:list'),
+    add: (app: any) => ipcRenderer.invoke('nodeapp:add', app),
+    install: (appId: string) => ipcRenderer.invoke('nodeapp:install', appId),
+    update: (appId: string) => ipcRenderer.invoke('nodeapp:update', appId),
+    start: (appId: string) => ipcRenderer.invoke('nodeapp:start', appId),
+    stop: (appId: string) => ipcRenderer.invoke('nodeapp:stop', appId),
+    uninstall: (appId: string) => ipcRenderer.invoke('nodeapp:uninstall', appId),
+    deployZip: (zipPath: string, options?: {
+      name?: string;
+      port?: number;
+      startCommand?: string;
+      installCommand?: string;
+      buildCommand?: string;
+    }) => ipcRenderer.invoke('nodeapp:deploy-zip', zipPath, options),
+    deployGit: (repoUrl: string, options?: {
+      name?: string;
+      port?: number;
+      startCommand?: string;
+      installCommand?: string;
+      buildCommand?: string;
+    }) => ipcRenderer.invoke('nodeapp:deploy-git', repoUrl, options),
+    checkNode: () => ipcRenderer.invoke('nodeapp:check-node'),
+    installNode: () => ipcRenderer.invoke('nodeapp:install-node'),
+    onUpdated: (callback: (apps: any[]) => void) => {
+      const eventListener = (_: any, apps: any[]) => callback(apps)
+      ipcRenderer.on('nodeapp:updated', eventListener)
+      return () => {
+        ipcRenderer.removeListener('nodeapp:updated', eventListener)
+      }
+    }
+  },
   file: {
     select: (options?: OpenDialogOptions) => ipcRenderer.invoke('file:select', options),
     upload: (filePath: string) => ipcRenderer.invoke('file:upload', filePath),
@@ -121,7 +153,7 @@ const api = {
     cleanup: () => ipcRenderer.invoke('mcp:cleanup')
   },
   shell: {
-    openExternal: shell.openExternal
+    openExternal: (url: string) => ipcRenderer.invoke('shell:openExternal', url)
   },
   copilot: {
     getAuthMessage: (headers?: Record<string, string>) => ipcRenderer.invoke('copilot:get-auth-message', headers),
@@ -137,7 +169,8 @@ const api = {
   isBinaryExist: (name: string) => ipcRenderer.invoke('app:is-binary-exist', name),
   getBinaryPath: (name: string) => ipcRenderer.invoke('app:get-binary-path', name),
   installUVBinary: () => ipcRenderer.invoke('app:install-uv-binary'),
-  installBunBinary: () => ipcRenderer.invoke('app:install-bun-binary')
+  installBunBinary: () => ipcRenderer.invoke('app:install-bun-binary'),
+  run: (command: string) => ipcRenderer.invoke('app:run-command', command)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
