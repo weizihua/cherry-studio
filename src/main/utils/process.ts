@@ -6,13 +6,13 @@ import path from 'path'
 
 import { getResourcePath } from '.'
 
-export function runInstallScript(scriptPath: string): Promise<void> {
+export function runInstallScript(scriptPath: string, env?: NodeJS.ProcessEnv): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const installScriptPath = path.join(getResourcePath(), 'scripts', scriptPath)
     log.info(`Running script at: ${installScriptPath}`)
 
     const nodeProcess = spawn(process.execPath, [installScriptPath], {
-      env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' }
+      env: { ...process.env, ELECTRON_RUN_AS_NODE: '1', ...env }
     })
 
     nodeProcess.stdout.on('data', (data) => {

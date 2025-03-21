@@ -20,5 +20,7 @@ declare global {
     keyv: KeyvStorage
     mermaid: any
     store: any
+    backupToWebdav: (data: string, webdavConfig: WebDavConfig) => Promise<boolean>
+    restoreFromWebdav: (webdavConfig: WebDavConfig) => Promise<{ data: string; success: boolean }>
   }
 }

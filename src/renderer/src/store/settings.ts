@@ -4,7 +4,7 @@ import { CodeStyleVarious, LanguageVarious, ThemeMode, TranslateLanguageVarious 
 
 export type SendMessageShortcut = 'Enter' | 'Shift+Enter' | 'Ctrl+Enter' | 'Command+Enter'
 
-export type SidebarIcon = 'assistants' | 'agents' | 'paintings' | 'translate' | 'minapp' | 'knowledge' | 'files'
+export type SidebarIcon = 'assistants' | 'agents' | 'paintings' | 'translate' | 'minapp' | 'nodeapps' | 'knowledge' | 'files'
 
 export const DEFAULT_SIDEBAR_ICONS: SidebarIcon[] = [
   'assistants',
@@ -12,6 +12,7 @@ export const DEFAULT_SIDEBAR_ICONS: SidebarIcon[] = [
   'paintings',
   'translate',
   'minapp',
+  'nodeapps',
   'knowledge',
   'files'
 ]

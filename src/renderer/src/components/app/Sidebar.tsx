@@ -130,6 +130,7 @@ const MainMenus: FC = () => {
     paintings: <PictureOutlined style={{ fontSize: 16 }} />,
     translate: <TranslationOutlined />,
     minapp: <i className="iconfont icon-appstore" />,
+    nodeapps: <i className="iconfont icon-code" />,
     knowledge: <FileSearchOutlined />,
     files: <FolderOutlined />
   }
@@ -140,6 +141,7 @@ const MainMenus: FC = () => {
     paintings: '/paintings',
     translate: '/translate',
     minapp: '/apps',
+    nodeapps: '/nodeapps',
     knowledge: '/knowledge',
     files: '/files'
   }
