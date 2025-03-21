@@ -237,7 +237,8 @@
       "warning": "警告",
       "you": "用户",
       "more": "更多",
-      "advanced_settings": "高级设置"
+      "advanced_settings": "高级设置",
+      "expand": "展开"
     },
     "docs": {
       "title": "帮助文档"
@@ -483,7 +484,11 @@
       "upgrade.success.content": "重启用以完成升级",
       "upgrade.success.title": "升级成功",
       "warn.notion.exporting": "正在导出到 Notion, 请勿重复请求导出!",
-      "warning.rate.limit": "发送过于频繁，请等待 {{seconds}} 秒后再尝试"
+      "warning.rate.limit": "发送过于频繁，请等待 {{seconds}} 秒后再尝试",
+      "tools": {
+        "invoking": "调用中",
+        "completed": "已完成"
+      }
     },
     "minapp": {
       "sidebar.add.title": "添加到侧边栏",
@@ -757,6 +762,12 @@
           "password": "WebDAV 密码",
           "path": "WebDAV 路径",
           "path.placeholder": "/backup",
+          "backup.modal.title": "备份到 WebDAV",
+          "backup.modal.filename.placeholder": "请输入备份文件名",
+          "restore.modal.title": "从 WebDAV 恢复",
+          "restore.modal.select.placeholder": "请选择要恢复的备份文件",
+          "restore.confirm.title": "确认恢复",
+          "restore.confirm.content": "从 WebDAV 恢复将会覆盖当前数据，是否继续？",
           "restore.button": "从 WebDAV 恢复",
           "restore.content": "从 WebDAV 恢复将覆盖当前数据，是否继续？",
           "restore.title": "从 WebDAV 恢复",

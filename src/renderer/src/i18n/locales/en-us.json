@@ -237,7 +237,8 @@
       "copied": "Copied",
       "confirm": "Confirm",
       "more": "More",
-      "advanced_settings": "Advanced Settings"
+      "advanced_settings": "Advanced Settings",
+      "expand": "Expand"
     },
     "docs": {
       "title": "Docs"
@@ -484,6 +485,10 @@
       "upgrade.success.title": "Upgrade successfully",
       "warn.notion.exporting": "Exporting to Notion, please do not request export repeatedly!",
       "warning.rate.limit": "Too many requests. Please wait {{seconds}} seconds before trying again.",
+      "tools": {
+        "invoking": "Invoking",
+        "completed": "Completed"
+      },
       "nextJsInfo": "Next.js Application Note",
       "nextJsDescription": "Next.js applications require a build step before they can be started. Make sure to check 'This is a Next.js application' or manually add 'npm run build' as the build command."
     },
@@ -766,6 +771,12 @@
           "password": "WebDAV Password",
           "path": "WebDAV Path",
           "path.placeholder": "/backup",
+          "backup.modal.title": "Backup to WebDAV",
+          "backup.modal.filename.placeholder": "Please enter backup filename",
+          "restore.modal.title": "Restore from WebDAV",
+          "restore.modal.select.placeholder": "Please select a backup file to restore",
+          "restore.confirm.title": "Confirm Restore",
+          "restore.confirm.content": "Restoring from WebDAV will overwrite current data. Do you want to continue?",
           "restore.button": "Restore from WebDAV",
           "restore.content": "Restore from WebDAV will overwrite the current data, continue?",
           "restore.title": "Restore from WebDAV",
