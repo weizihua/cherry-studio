@@ -5,16 +5,10 @@
 import store from '@renderer/store'
 import { 
   setTtsEnabled, 
-  setTtsType,
   setTtsApiUrl, 
   setTtsApiKey, 
   setTtsModel, 
-  setTtsVoice,
-  setTtsPlayerType,
-  setTtsEdgeRate,
-  setTtsEdgeVolume,
-  setTtsCustomModels,
-  setTtsCustomVoices
+  setTtsVoice 
 } from '@renderer/store/settings'
 
 /**
@@ -26,29 +20,17 @@ export async function loadTTSSettingsFromMain() {
     
     // 从主进程获取TTS设置
     const ttsEnabled = await window.api.config.get('ttsEnabled');
-    const ttsType = await window.api.config.get('ttsType');
     const ttsApiUrl = await window.api.config.get('ttsApiUrl');
     const ttsApiKey = await window.api.config.get('ttsApiKey');
     const ttsModel = await window.api.config.get('ttsModel');
     const ttsVoice = await window.api.config.get('ttsVoice');
-    const ttsPlayerType = await window.api.config.get('ttsPlayerType');
-    const ttsEdgeRate = await window.api.config.get('ttsEdgeRate');
-    const ttsEdgeVolume = await window.api.config.get('ttsEdgeVolume');
-    const ttsCustomModels = await window.api.config.get('ttsCustomModels');
-    const ttsCustomVoices = await window.api.config.get('ttsCustomVoices');
     
     console.log('从主进程获取到TTS设置:', { 
       ttsEnabled, 
-      ttsType,
       ttsApiUrl: ttsApiUrl?.substring(0, 10) + '...', 
       apiKeyExists: !!ttsApiKey,
       ttsModel, 
-      ttsVoice,
-      ttsPlayerType,
-      ttsEdgeRate,
-      ttsEdgeVolume,
-      hasCustomModels: !!ttsCustomModels,
-      hasCustomVoices: !!ttsCustomVoices
+      ttsVoice 
     });
     
     // 更新Redux状态
@@ -57,10 +39,6 @@ export async function loadTTSSettingsFromMain() {
     // 只有当主进程有值且与Redux不同时才更新
     if (ttsEnabled !== undefined && ttsEnabled !== reduxState.ttsEnabled) {
       store.dispatch(setTtsEnabled(ttsEnabled));
-    }
-    
-    if (ttsType && ttsType !== reduxState.ttsType) {
-      store.dispatch(setTtsType(ttsType));
     }
     
     if (ttsApiUrl && ttsApiUrl !== reduxState.ttsApiUrl) {
@@ -79,33 +57,9 @@ export async function loadTTSSettingsFromMain() {
       store.dispatch(setTtsVoice(ttsVoice));
     }
     
-    if (ttsPlayerType && ttsPlayerType !== reduxState.ttsPlayerType) {
-      store.dispatch(setTtsPlayerType(ttsPlayerType));
-    }
-    
-    if (ttsEdgeRate && ttsEdgeRate !== reduxState.ttsEdgeRate) {
-      store.dispatch(setTtsEdgeRate(ttsEdgeRate));
-    }
-    
-    if (ttsEdgeVolume && ttsEdgeVolume !== reduxState.ttsEdgeVolume) {
-      store.dispatch(setTtsEdgeVolume(ttsEdgeVolume));
-    }
-    
-    if (ttsCustomModels && JSON.stringify(ttsCustomModels) !== JSON.stringify(reduxState.ttsCustomModels)) {
-      store.dispatch(setTtsCustomModels(ttsCustomModels));
-    }
-    
-    if (ttsCustomVoices && JSON.stringify(ttsCustomVoices) !== JSON.stringify(reduxState.ttsCustomVoices)) {
-      store.dispatch(setTtsCustomVoices(ttsCustomVoices));
-    }
-    
     // 如果Redux有值而主进程没有，同步到主进程
-    if (!ttsEnabled && reduxState.ttsEnabled !== undefined) {
+    if (!ttsEnabled && reduxState.ttsEnabled) {
       window.api.config.set('ttsEnabled', reduxState.ttsEnabled);
-    }
-    
-    if (!ttsType && reduxState.ttsType) {
-      window.api.config.set('ttsType', reduxState.ttsType);
     }
     
     if (!ttsApiUrl && reduxState.ttsApiUrl) {
@@ -124,30 +78,11 @@ export async function loadTTSSettingsFromMain() {
       window.api.config.set('ttsVoice', reduxState.ttsVoice);
     }
     
-    if (!ttsPlayerType && reduxState.ttsPlayerType) {
-      window.api.config.set('ttsPlayerType', reduxState.ttsPlayerType);
-    }
-    
-    if (!ttsEdgeRate && reduxState.ttsEdgeRate) {
-      window.api.config.set('ttsEdgeRate', reduxState.ttsEdgeRate);
-    }
-    
-    if (!ttsEdgeVolume && reduxState.ttsEdgeVolume) {
-      window.api.config.set('ttsEdgeVolume', reduxState.ttsEdgeVolume);
-    }
-    
-    if (!ttsCustomModels && reduxState.ttsCustomModels && reduxState.ttsCustomModels.length > 0) {
-      window.api.config.set('ttsCustomModels', reduxState.ttsCustomModels);
-    }
-    
-    if (!ttsCustomVoices && reduxState.ttsCustomVoices && reduxState.ttsCustomVoices.length > 0) {
-      window.api.config.set('ttsCustomVoices', reduxState.ttsCustomVoices);
-    }
-    
     console.log('TTS设置同步完成');
     
     // 检查TTS是否可用
     try {
+      // @ts-ignore - tts可能在类型定义中缺失
       const isAvailable = await window.api.tts.isAvailable();
       console.log('TTS服务可用性:', isAvailable);
     } catch (e) {
@@ -168,43 +103,25 @@ export function syncTTSSettingsToMain() {
   try {
     const { 
       ttsEnabled, 
-      ttsType,
       ttsApiUrl, 
       ttsApiKey, 
       ttsModel, 
-      ttsVoice,
-      ttsPlayerType,
-      ttsEdgeRate,
-      ttsEdgeVolume,
-      ttsCustomModels,
-      ttsCustomVoices
+      ttsVoice 
     } = store.getState().settings;
     
     console.log('同步TTS设置到主进程:', { 
       ttsEnabled, 
-      ttsType,
       ttsApiUrl: ttsApiUrl?.substring(0, 10) + '...', 
       apiKeyExists: !!ttsApiKey,
       ttsModel, 
-      ttsVoice,
-      ttsPlayerType,
-      ttsEdgeRate,
-      ttsEdgeVolume,
-      hasCustomModels: !!ttsCustomModels && ttsCustomModels.length > 0,
-      hasCustomVoices: !!ttsCustomVoices && ttsCustomVoices.length > 0,
+      ttsVoice 
     });
     
     window.api.config.set('ttsEnabled', ttsEnabled);
-    window.api.config.set('ttsType', ttsType);
     window.api.config.set('ttsApiUrl', ttsApiUrl);
     window.api.config.set('ttsApiKey', ttsApiKey);
     window.api.config.set('ttsModel', ttsModel);
     window.api.config.set('ttsVoice', ttsVoice);
-    window.api.config.set('ttsPlayerType', ttsPlayerType);
-    window.api.config.set('ttsEdgeRate', ttsEdgeRate);
-    window.api.config.set('ttsEdgeVolume', ttsEdgeVolume);
-    window.api.config.set('ttsCustomModels', ttsCustomModels);
-    window.api.config.set('ttsCustomVoices', ttsCustomVoices);
     
     return true;
   } catch (error) {
