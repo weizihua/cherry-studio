@@ -104,9 +104,9 @@ export interface SettingsState {
   obsidianFolder: string | null
   obsidianTages: string | null
   joplinToken: string | null
-  joplinUrl: string | null
 }
 
+export type MultiModelMessageStyle = 'horizontal' | 'vertical' | 'fold' | 'grid'
 
 const initialState: SettingsState = {
   showAssistants: true,
