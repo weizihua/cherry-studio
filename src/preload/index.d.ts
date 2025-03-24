@@ -171,7 +171,12 @@ declare global {
         stop: () => Promise<void>
         getVoices: () => Promise<string[]>
         isAvailable: () => Promise<boolean>
-        fetchAvailableOptions: () => Promise<{ success: boolean; models?: string[]; voices?: string[]; error?: string }>
+        fetchAvailableOptions: () => Promise<{ 
+          success: boolean; 
+          models?: string[]; 
+          voices?: string[];
+          error?: string;
+        }>
       }
       isBinaryExist: (name: string) => Promise<boolean>
       getBinaryPath: (name: string) => Promise<string>
